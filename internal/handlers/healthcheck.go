@@ -3,9 +3,19 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/arxdsilva/knab/internal/domains"
 )
 
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
+type HTTPPrimaryAdapter struct {
+	service domains.PrimaryPort
+}
+
+func NewHTTPPrimaryAdapter(s domains.PrimaryPort) *HTTPPrimaryAdapter {
+	return &HTTPPrimaryAdapter{s}
+}
+
+func (a *HTTPPrimaryAdapter) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	ok := struct {
 		Service string `json:"service"`
 	}{"ok"}
