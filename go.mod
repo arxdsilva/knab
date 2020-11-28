@@ -10,6 +10,7 @@ require (
 	github.com/fatih/color v1.10.0 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/sqlx v1.2.0 // indirect
+	github.com/kpango/glg v1.5.1
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.5 // indirect
 	github.com/nuveo/log v0.0.0-20190430190217-44d02db6bdf8 // indirect
