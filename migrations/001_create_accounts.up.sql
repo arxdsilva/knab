@@ -13,7 +13,7 @@ CREATE TABLE public.accounts (
 	active boolean NOT NULL DEFAULT true,
 	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT paybacks_pkey PRIMARY KEY (id)
+	CONSTRAINT accounts_pkey PRIMARY KEY (id)
 );
 
 CREATE INDEX if not exists accounts_uuid_idx ON public.accounts USING btree (uuid);
