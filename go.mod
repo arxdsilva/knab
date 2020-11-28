@@ -20,7 +20,9 @@ require (
 	github.com/prest/helpers v0.0.0-20180627002842-07dcf603c9a1 // indirect
 	github.com/prest/middlewares v0.0.0-20190501210230-25fb4a665793
 	github.com/prest/template v0.0.0-20190409192546-ae0e5431a9b5 // indirect
+	github.com/rs/cors v1.7.0
 	github.com/spf13/cobra v1.1.1 // indirect
 	github.com/spf13/viper v1.7.1 // indirect
+	github.com/urfave/negroni v1.0.0
 	gopkg.in/mattes/migrate.v1 v1.3.2 // indirect
 )

@@ -12,6 +12,7 @@ func main() {
 	config.Load()
 	pms.GetApp()
 	r := router.Get()
+	middlewares.Load()
 	middlewares.RouterRegister(r)
 	cmd.Execute()
 }
