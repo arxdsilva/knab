@@ -1,0 +1,2 @@
+[access]
+restrict = true  # can access only the tables listed below
