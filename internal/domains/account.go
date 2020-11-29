@@ -18,7 +18,7 @@ func (a *Account) Verify() (err error) {
 	if a.DocumentNumber == "" {
 		return errors.New("Document number cannot be empty")
 	}
-	if _, err := strconv.Atoi(v); err == nil {
+	if _, err := strconv.Atoi(a.DocumentNumber); err != nil {
 		return fmt.Errorf("%v is not a document number", a.DocumentNumber)
 	}
 	return
