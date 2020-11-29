@@ -14,6 +14,8 @@ dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
+github.com/DATA-DOG/go-sqlmock v1.5.0 h1:Shsta01QNfFxHCfpW6YH2STWB0MudeXXEWMr20OEh60=
+github.com/DATA-DOG/go-sqlmock v1.5.0/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
@@ -161,6 +163,8 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
+github.com/levpay/adapters v0.0.0-20200719133251-e44618921352 h1:/9Lt1qj4K/Ru9sfr1bLowtkocadZDaynvJ82//oN75M=
+github.com/levpay/adapters v0.0.0-20200719133251-e44618921352/go.mod h1:J7hlSlp3cz09lJBWk1IE2q0M8ImG6Yb9558kD4g1xVA=
 github.com/lib/pq v1.0.0/go.mod h1:5WUZQaWbwv1U+lTReE5YruASi9Al49XbQIvNi/34Woo=
 github.com/lib/pq v1.8.0 h1:9xohqzkUwzR4Ga4ivdTcawVS89YSDVxXMa3xJX3cGzg=
 github.com/lib/pq v1.8.0/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
@@ -196,6 +200,8 @@ github.com/modern-go/reflect2 v1.0.1/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3Rllmb
 github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
 github.com/nuveo/log v0.0.0-20190430190217-44d02db6bdf8 h1:IoVlN33HZ55i+l/dTrlcQSv3cbK4YR1JOBMUhEsG75k=
 github.com/nuveo/log v0.0.0-20190430190217-44d02db6bdf8/go.mod h1:3hnKPKp4eM6b2+y19LM7XRFDT5hN1gV7LwijyQqqeNc=
+github.com/nuveo/storing v0.0.0-20190205185538-a558ab83362f h1:9HDXoK1ZkhPnvpiEeoicR/+nePWR8XtvqXskneiLVUA=
+github.com/nuveo/storing v0.0.0-20190205185538-a558ab83362f/go.mod h1:2g8KfuhkjLNC/AFtqpNbTwwCKVNjNiJBOsDnyymIGDw=
 github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn4U=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
 github.com/pelletier/go-toml v1.2.0 h1:T5zMGML61Wp+FlcbWjRDT7yAxhJNAiPPLOFECq181zc=
@@ -218,6 +224,13 @@ github.com/prest/helpers v0.0.0-20180627002842-07dcf603c9a1 h1:PtS31fzyTbEXF3Yq5
 github.com/prest/helpers v0.0.0-20180627002842-07dcf603c9a1/go.mod h1:tcMH1yW5cUqgmKDZb3qxxpTTce2zSfPoXJUXS/hxZxM=
 github.com/prest/middlewares v0.0.0-20190501210230-25fb4a665793 h1:BBQpyyCIHTDrk8OWNiFjVe7uGq471oYV02ksdk4k66k=
 github.com/prest/middlewares v0.0.0-20190501210230-25fb4a665793/go.mod h1:prK0KlslblejsTcEVnwTJO32BNFiSaHfOV2Vd1zk1x8=
+github.com/prest/prest v1.0.4 h1:crEGFFHV4O6JthBseq1PlhI2VqwPvv+QvX8TI+a2QCE=
+github.com/prest/prest/adapters v0.0.0-20201101142512-f646e763875a h1:tqJf9iRr/winybl9MmFV3XfO+WJ12oHFje8+bLP+W5g=
+github.com/prest/prest/adapters v0.0.0-20201101142512-f646e763875a/go.mod h1:3hJF8Otdim8TkiPmhRpNi5RVeKh7awaP4n/su6JUIUY=
+github.com/prest/prest/config v0.0.0-20200729234819-07cc1b6b492f h1:e3zzUvc/t3b8Q+eYhIUd1jL6ndGECH8CYwLhDmpUq7g=
+github.com/prest/prest/config v0.0.0-20200729234819-07cc1b6b492f/go.mod h1:gQ6el6Zzd5rD6rC+2xxIZIJDRJch2uRRcWy3apkXVF0=
+github.com/prest/prest/template v0.0.0-20200729234819-07cc1b6b492f h1:DJpPZSERMXOeFoL1v8N7oguX836cM5cqIzTuiyRH0so=
+github.com/prest/prest/template v0.0.0-20200729234819-07cc1b6b492f/go.mod h1:WB8vTV4rqZvYUqy2arCLIndo0HpoGdVNpW8eyuC1NdE=
 github.com/prest/template v0.0.0-20190409192546-ae0e5431a9b5 h1:CpPFZnXKIr5mqWhjM2hQMajtjThsjt1YG8qjHDRIIco=
 github.com/prest/template v0.0.0-20190409192546-ae0e5431a9b5/go.mod h1:Ws+/Dk3RwsWY2NrWdT1wYZ8Ko2PGtCd6LDIz1HEDKrE=
 github.com/prometheus/client_golang v0.9.1/go.mod h1:7SWBe2y4D6OKWSNQJUaRYU/AaXPKyh/dDVn+NZz0KFw=
