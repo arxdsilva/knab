@@ -12,13 +12,24 @@ import (
 	"github.com/kpango/glg"
 )
 
+// GetAccountByID handler
+// lets API users search accounts by passing an ID
+//
+// Responses:
+//
+// 200 OK
+//
+// 404 Not found
+//
+// 406 NotAcceptable (ID is not a number)
+//
 func (a *HTTPPrimaryAdapter) GetAccountByID(w http.ResponseWriter, r *http.Request) {
 	idStr := mux.Vars(r)["account_id"]
 	idInt, err := strconv.Atoi(idStr)
 	if err != nil {
 		glg.Error("[GetAccountByID]", "(Atoi)", err.Error())
 		errAPI := fmt.Errorf("id '%s' is not a number", idStr)
-		http.Error(w, errAPI.Error(), http.StatusBadRequest)
+		http.Error(w, errAPI.Error(), http.StatusNotAcceptable)
 		return
 	}
 	acc := &domains.Account{ID: int64(idInt)}
@@ -33,6 +44,21 @@ func (a *HTTPPrimaryAdapter) GetAccountByID(w http.ResponseWriter, r *http.Reque
 	json.NewEncoder(w).Encode(acc)
 }
 
+// CreateAccount handler
+// lets API users create accounts by passing a document_number as body
+//
+// Example body: `{"document_number":"1234"}`
+//
+// Responses:
+//
+// 201 Created
+//
+// 400 Bad Request (invalid number)
+//
+// 406 NotAcceptable (body problems)
+//
+// 500 Internal Server Error (could not create account)
+//
 func (a *HTTPPrimaryAdapter) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	acc := &domains.Account{}
 	if err := json.NewDecoder(r.Body).Decode(acc); err != nil {
