@@ -5,12 +5,12 @@ import (
 
 	"github.com/arxdsilva/knab/internal/domains"
 	"github.com/arxdsilva/knab/internal/handlers"
-	"github.com/arxdsilva/knab/internal/repository/account"
+	"github.com/arxdsilva/knab/internal/repository"
 	"github.com/gorilla/mux"
 )
 
 func RouterRegister(r *mux.Router) {
-	rep := account.NewAccount()
+	rep := repository.NewAccount()
 	s := domains.NewService(rep)
 	adapter := handlers.NewHTTPPrimaryAdapter(s)
 	r.HandleFunc("/", adapter.HealthCheck).Methods(http.MethodGet)
