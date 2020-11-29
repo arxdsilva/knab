@@ -15,7 +15,7 @@ func RouterRegister(r *mux.Router) {
 	adapter := handlers.NewHTTPPrimaryAdapter(s)
 	r.HandleFunc("/", adapter.HealthCheck).Methods(http.MethodGet)
 	r.HandleFunc("/accounts", adapter.CreateAccount).Methods(http.MethodPost)
-	r.HandleFunc("/accounts/{account_id:[0-9]+}", adapter.GetAccount).Methods(http.MethodGet)
+	r.HandleFunc("/accounts/{account_id:[0-9]+}", adapter.GetAccountByID).Methods(http.MethodGet)
 	//	r.HandleFunc("/accounts/:account_uuid", nil).Methods(http.MethodGet)
 	r.HandleFunc("/transactions", adapter.CreateTransaction).Methods(http.MethodPost)
 }

@@ -16,3 +16,7 @@ func NewService(repo SecondaryPort) PrimaryPort {
 func (p *port) CreateAccount(a *Account) (err error) {
 	return p.repo.CreateAccount(a)
 }
+
+func (p *port) AccountByID(a *Account) (err error) {
+	return p.repo.AccountByID(a)
+}
