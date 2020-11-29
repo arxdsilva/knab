@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/arxdsilva/knab/internal/middlewares"
 	"github.com/arxdsilva/knab/platform/config"
-	"github.com/prest/cmd"
-	"github.com/prest/config/router"
-	pms "github.com/prest/middlewares"
+	"github.com/prest/prest/cmd"
+	"github.com/prest/prest/config/router"
+	pms "github.com/prest/prest/middlewares"
 )
 
 func main() {
