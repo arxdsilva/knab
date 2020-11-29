@@ -93,3 +93,26 @@ func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
 	assert.Nil(t, errR)
 	assert.Contains(t, string(bodyByte), "server error")
 }
+
+func Test_CreateAccount_InvalidBody(t *testing.T) {
+	os.Setenv("TEST", "true")
+	defer os.Unsetenv("TEST")
+	m := mock.New(t)
+	config.Get.DBAdapter = m
+	mrep := mocks.NewRepositoryRegisteredError()
+	s := mocks.NewService(mrep)
+	adapter := NewHTTPPrimaryAdapter(s)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	body := strings.NewReader(`12345512312`)
+	resp, err := http.Post(server.URL+"/accounts", "", body)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusNotAcceptable, resp.StatusCode)
+	bodyByte, errR := ioutil.ReadAll(resp.Body)
+	assert.Nil(t, errR)
+	assert.Contains(t, string(bodyByte), "parse request body")
+}

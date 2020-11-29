@@ -38,7 +38,7 @@ func (a *HTTPPrimaryAdapter) CreateAccount(w http.ResponseWriter, r *http.Reques
 	if err := json.NewDecoder(r.Body).Decode(acc); err != nil {
 		glg.Error("[CreateAccount]", "(Decode)", err.Error())
 		errAPI := errors.New("Could not parse request body")
-		http.Error(w, errAPI.Error(), http.StatusBadRequest)
+		http.Error(w, errAPI.Error(), http.StatusNotAcceptable)
 		return
 	}
 	if err := acc.Verify(); err != nil {
