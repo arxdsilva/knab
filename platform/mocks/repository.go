@@ -1,6 +1,10 @@
 package mocks
 
-import "github.com/arxdsilva/knab/internal/domains"
+import (
+	"errors"
+
+	"github.com/arxdsilva/knab/internal/domains"
+)
 
 type Repository struct{}
 
@@ -15,3 +19,12 @@ func NewRepositoryRegistered() domains.SecondaryPort                         { r
 func (r *RepositoryRegistered) CreateAccount(a *domains.Account) (err error) { return }
 func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)   { return }
 func (r *RepositoryRegistered) IsRegistered(doc string) (rp bool, err error) { return true, nil }
+
+type RepositoryRegisteredError struct{}
+
+func NewRepositoryRegisteredError() domains.SecondaryPort                         { return &RepositoryRegisteredError{} }
+func (r *RepositoryRegisteredError) CreateAccount(a *domains.Account) (err error) { return }
+func (r *RepositoryRegisteredError) AccountByID(a *domains.Account) (err error)   { return }
+func (r *RepositoryRegisteredError) IsRegistered(doc string) (rp bool, err error) {
+	return true, errors.New("some error")
+}
