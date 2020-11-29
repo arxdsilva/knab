@@ -10,7 +10,7 @@ import (
 )
 
 func RouterRegister(r *mux.Router) {
-	rep := account.NewRepository()
+	rep := account.NewAccount()
 	s := domains.NewService(rep)
 	adapter := handlers.NewHTTPPrimaryAdapter(s)
 	r.HandleFunc("/", adapter.HealthCheck).Methods(http.MethodGet)
