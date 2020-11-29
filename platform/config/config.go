@@ -1,16 +1,17 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
+	"testing"
 
 	"github.com/crgimenes/goconfig"
 	_ "github.com/crgimenes/goconfig/toml" // import required by goconfig
-	"github.com/prest/adapters"
-	"github.com/prest/adapters/postgres"
-	pConf "github.com/prest/config"
+	"github.com/prest/prest/adapters"
+	"github.com/prest/prest/adapters/mock"
+	"github.com/prest/prest/adapters/postgres"
+	pConf "github.com/prest/prest/config"
 )
 
 type Config struct {
@@ -77,9 +78,12 @@ func Load() {
 	pConf.PrestConf.EnableDefaultJWT = false
 	pConf.PrestConf.EnableCache = Get.Cache
 	pConf.PrestConf.PGMaxIdleConn = 0
-	postgres.Load()
-	Get.DBAdapter = pConf.PrestConf.Adapter
-	fmt.Printf("config.Get: %+v\n", Get)
+	if os.Getenv("TEST") != "" {
+		Get.DBAdapter = mock.New(&testing.T{})
+	} else {
+		postgres.Load()
+		Get.DBAdapter = pConf.PrestConf.Adapter
+	}
 }
 
 func loadDefaultPGConfig() {
