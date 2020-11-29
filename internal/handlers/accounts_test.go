@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -45,4 +46,27 @@ func Test_CreateAccountOK(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "1234", acc.DocumentNumber)
 	assert.Equal(t, 0, 0)
+}
+
+func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
+	os.Setenv("TEST", "true")
+	defer os.Unsetenv("TEST")
+	m := mock.New(t)
+	config.Get.DBAdapter = m
+	mrep := mocks.NewRepositoryRegistered()
+	s := mocks.NewService(mrep)
+	adapter := NewHTTPPrimaryAdapter(s)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	body := strings.NewReader(`{"document_number":"1234"}`)
+	resp, err := http.Post(server.URL+"/accounts", "", body)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusConflict, resp.StatusCode)
+	bodyByte, errR := ioutil.ReadAll(resp.Body)
+	assert.Nil(t, errR)
+	assert.Contains(t, string(bodyByte), "has already been registered")
 }
