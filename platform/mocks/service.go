@@ -18,3 +18,9 @@ func NewService(repo domains.SecondaryPort) domains.PrimaryPort {
 func (p *portMock) CreateAccount(a *domains.Account) (err error) {
 	return p.repo.CreateAccount(a)
 }
+func (p *portMock) AccountByID(a *domains.Account) (err error) {
+	return p.repo.AccountByID(a)
+}
+func (p *portMock) IsRegistered(doc string) (r bool, err error) {
+	return p.repo.IsRegistered(doc)
+}

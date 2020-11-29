@@ -20,3 +20,7 @@ func (p *port) CreateAccount(a *Account) (err error) {
 func (p *port) AccountByID(a *Account) (err error) {
 	return p.repo.AccountByID(a)
 }
+
+func (p *port) IsRegistered(doc string) (r bool, err error) {
+	return p.repo.IsRegistered(doc)
+}

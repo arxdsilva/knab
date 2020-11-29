@@ -46,6 +46,19 @@ func (a *HTTPPrimaryAdapter) CreateAccount(w http.ResponseWriter, r *http.Reques
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	registered, err := a.service.IsRegistered(acc.DocumentNumber)
+	if err != nil {
+		glg.Error("[CreateAccount]", "(IsRegistered)", err.Error())
+		apiErr := errors.New("Internal server error")
+		http.Error(w, apiErr.Error(), http.StatusInternalServerError)
+		return
+	}
+	if registered {
+		apiErr := fmt.Errorf("Document Number '%s' has already been registered",
+			acc.DocumentNumber)
+		http.Error(w, apiErr.Error(), http.StatusConflict)
+		return
+	}
 	if err := a.service.CreateAccount(acc); err != nil {
 		glg.Error("[CreateAccount]", "(service.CreateAccount)", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)

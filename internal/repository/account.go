@@ -54,3 +54,20 @@ func (ar *Account) AccountByID(a *domains.Account) (err error) {
 	a.DocumentNumber = ar.DocumentNumber
 	return
 }
+
+func (ar *Account) IsRegistered(doc string) (r bool, err error) {
+	sql := `SELECT id FROM accounts WHERE document_number=$1`
+	sc := config.Get.DBAdapter.Query(sql, doc)
+	err = sc.Err()
+	if err != nil {
+		return
+	}
+	n, errS := sc.Scan(ar)
+	if errS != nil {
+		return r, errS
+	}
+	if n > 0 {
+		return true, nil
+	}
+	return
+}
