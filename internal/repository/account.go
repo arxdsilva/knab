@@ -23,5 +23,15 @@ func NewAccount() domains.SecondaryPort {
 func (ar *Account) CreateAccount(a *domains.Account) (err error) {
 	sql := `INSERT INTO accounts (document_number) VALUES ($1)`
 	sc := config.Get.DBAdapter.Insert(sql, a.DocumentNumber)
+	err = sc.Err()
+	if err != nil {
+		return
+	}
+	_, err = sc.Scan(ar)
+	if err != nil {
+		return
+	}
+	a.ID = ar.ID
+	a.UUID = ar.UUID
 	return
 }
