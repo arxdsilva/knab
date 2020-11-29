@@ -13,6 +13,6 @@ func NewService(repo SecondaryPort) PrimaryPort {
 	return &port{repo, context.Background()}
 }
 
-func (p *port) CreateAccount(a Account) (err error) {
+func (p *port) CreateAccount(a *Account) (err error) {
 	return p.repo.CreateAccount(a)
 }
