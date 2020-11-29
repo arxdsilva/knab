@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -33,7 +34,8 @@ func Test_CreateAccountOK(t *testing.T) {
 	adapter := NewHTTPPrimaryAdapter(s)
 	r := mux.NewRouter()
 	n := negroni.Classic()
-	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
 	n.UseHandler(r)
 	server := httptest.NewServer(n)
 	defer server.Close()
@@ -45,7 +47,7 @@ func Test_CreateAccountOK(t *testing.T) {
 	err = json.NewDecoder(resp.Body).Decode(acc)
 	assert.Nil(t, err)
 	assert.Equal(t, "1234", acc.DocumentNumber)
-	assert.Equal(t, 0, 0)
+	assert.Equal(t, int64(0), acc.ID)
 }
 
 func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
@@ -58,7 +60,8 @@ func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
 	adapter := NewHTTPPrimaryAdapter(s)
 	r := mux.NewRouter()
 	n := negroni.Classic()
-	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
 	n.UseHandler(r)
 	server := httptest.NewServer(n)
 	defer server.Close()
@@ -81,7 +84,8 @@ func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
 	adapter := NewHTTPPrimaryAdapter(s)
 	r := mux.NewRouter()
 	n := negroni.Classic()
-	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
 	n.UseHandler(r)
 	server := httptest.NewServer(n)
 	defer server.Close()
@@ -104,7 +108,8 @@ func Test_CreateAccount_InvalidBody(t *testing.T) {
 	adapter := NewHTTPPrimaryAdapter(s)
 	r := mux.NewRouter()
 	n := negroni.Classic()
-	r.HandleFunc("/accounts", adapter.CreateAccount).Methods("POST")
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
 	n.UseHandler(r)
 	server := httptest.NewServer(n)
 	defer server.Close()
@@ -115,4 +120,29 @@ func Test_CreateAccount_InvalidBody(t *testing.T) {
 	bodyByte, errR := ioutil.ReadAll(resp.Body)
 	assert.Nil(t, errR)
 	assert.Contains(t, string(bodyByte), "parse request body")
+}
+
+func Test_GetAccountByID_OK(t *testing.T) {
+	os.Setenv("TEST", "true")
+	defer os.Unsetenv("TEST")
+	m := mock.New(t)
+	config.Get.DBAdapter = m
+	mrep := mocks.NewRepository()
+	s := mocks.NewService(mrep)
+	adapter := NewHTTPPrimaryAdapter(s)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts/{account_id}", adapter.GetAccountByID).
+		Methods("GET")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	fmt.Println(server.Config)
+	resp, err := http.Get(server.URL + "/accounts/" + "1")
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	acc := &domains.Account{}
+	err = json.NewDecoder(resp.Body).Decode(acc)
+	assert.Nil(t, err)
+	assert.Equal(t, int64(1), acc.ID)
 }

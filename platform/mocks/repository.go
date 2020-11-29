@@ -10,7 +10,10 @@ type Repository struct{}
 
 func NewRepository() domains.SecondaryPort                         { return &Repository{} }
 func (r *Repository) CreateAccount(a *domains.Account) (err error) { return }
-func (r *Repository) AccountByID(a *domains.Account) (err error)   { return }
+func (r *Repository) AccountByID(a *domains.Account) (err error) {
+	a.ID = 1
+	return
+}
 func (r *Repository) IsRegistered(doc string) (rp bool, err error) { return }
 
 type RepositoryRegistered struct{}
