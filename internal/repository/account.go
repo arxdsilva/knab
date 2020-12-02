@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/arxdsilva/knab/internal/domains"
 	"github.com/arxdsilva/knab/platform/config"
@@ -45,9 +46,12 @@ func (ar *Account) AccountByID(a *domains.Account) (err error) {
 	if err != nil {
 		return
 	}
-	_, err = sc.Scan(ar)
+	n, err := sc.Scan(ar)
 	if err != nil {
 		return
+	}
+	if n == 0 {
+		return fmt.Errorf("Account id '%v' could not be found", a.ID)
 	}
 	a.ID = ar.ID
 	a.UUID = ar.UUID
