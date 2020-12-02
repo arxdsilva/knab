@@ -44,5 +44,14 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		http.Error(w, errAPI.Error(), http.StatusNotFound)
 		return
 	}
-	// not finished
+	t.AccountID = acc.ID
+	if err := a.service.CreateTransaction(t); err != nil {
+		glg.Error("[CreateTransaction]", "(service.CreateTransaction)", err.Error())
+		errAPI := errors.New("Internal Server Error")
+		http.Error(w, errAPI.Error(), http.StatusInternalServerError)
+		return
+	}
+	glg.Info("[CreateTransaction] success ", t.UUID)
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(t)
 }
