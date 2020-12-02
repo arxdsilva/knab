@@ -10,8 +10,9 @@ import (
 )
 
 func RouterRegister(r *mux.Router) {
-	rep := repository.NewAccount()
-	s := domains.NewService(rep)
+	acc := repository.NewAccount()
+	tra := repository.NewTransaction()
+	s := domains.NewService(acc, tra)
 	adapter := handlers.NewHTTPPrimaryAdapter(s)
 	// to avoid prest dbname/table collision I had to create this path
 	r.HandleFunc("/", adapter.HealthCheck).Methods(http.MethodGet)

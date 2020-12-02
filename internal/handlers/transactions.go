@@ -37,7 +37,7 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	acc := &domains.Account{t.AccountID}
+	acc := &domains.Account{ID: t.AccountID}
 	if err := a.service.AccountByID(acc); err != nil {
 		glg.Error("[CreateTransaction]", "(service.AccountByID)", err.Error())
 		errAPI := errors.New("account_id could not be found")

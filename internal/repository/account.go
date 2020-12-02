@@ -18,7 +18,7 @@ type Account struct {
 }
 
 // NewAccount  retorna um tipo que implementa a porta secundaria
-func NewAccount() domains.SecondaryPort {
+func NewAccount() domains.AccountService {
 	return &Account{}
 }
 
@@ -55,7 +55,7 @@ func (ar *Account) AccountByID(a *domains.Account) (err error) {
 	return
 }
 
-func (ar *Account) IsRegistered(doc string) (r bool, err error) {
+func (ar *Account) IsIDRegistered(doc string) (r bool, err error) {
 	sql := `SELECT id FROM accounts WHERE document_number=$1`
 	sc := config.Get.DBAdapter.Query(sql, doc)
 	err = sc.Err()
