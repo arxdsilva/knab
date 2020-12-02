@@ -8,26 +8,29 @@ import (
 
 type Repository struct{}
 
-func NewRepository() domains.SecondaryPort                         { return &Repository{} }
+func NewRepository() domains.APIService                            { return &Repository{} }
 func (r *Repository) CreateAccount(a *domains.Account) (err error) { return }
 func (r *Repository) AccountByID(a *domains.Account) (err error) {
 	a.ID = 1
 	return
 }
-func (r *Repository) IsRegistered(doc string) (rp bool, err error) { return }
+func (r *Repository) IsIDRegistered(doc string) (rp bool, err error)       { return }
+func (r *Repository) CreateTransaction(t *domains.Transaction) (err error) { return }
 
 type RepositoryRegistered struct{}
 
-func NewRepositoryRegistered() domains.SecondaryPort                         { return &RepositoryRegistered{} }
-func (r *RepositoryRegistered) CreateAccount(a *domains.Account) (err error) { return }
-func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)   { return }
-func (r *RepositoryRegistered) IsRegistered(doc string) (rp bool, err error) { return true, nil }
+func NewRepositoryRegistered() domains.APIService                                    { return &RepositoryRegistered{} }
+func (r *RepositoryRegistered) CreateAccount(a *domains.Account) (err error)         { return }
+func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)           { return }
+func (r *RepositoryRegistered) IsIDRegistered(doc string) (rp bool, err error)       { return true, nil }
+func (r *RepositoryRegistered) CreateTransaction(t *domains.Transaction) (err error) { return }
 
 type RepositoryRegisteredError struct{}
 
-func NewRepositoryRegisteredError() domains.SecondaryPort                         { return &RepositoryRegisteredError{} }
+func NewRepositoryRegisteredError() domains.APIService                            { return &RepositoryRegisteredError{} }
 func (r *RepositoryRegisteredError) CreateAccount(a *domains.Account) (err error) { return }
 func (r *RepositoryRegisteredError) AccountByID(a *domains.Account) (err error)   { return }
-func (r *RepositoryRegisteredError) IsRegistered(doc string) (rp bool, err error) {
+func (r *RepositoryRegisteredError) IsIDRegistered(doc string) (rp bool, err error) {
 	return true, errors.New("some error")
 }
+func (r *RepositoryRegisteredError) CreateTransaction(t *domains.Transaction) (err error) { return }

@@ -30,8 +30,8 @@ func Test_CreateAccountOK(t *testing.T) {
 	m := mock.New(t)
 	config.Get.DBAdapter = m
 	mrep := mocks.NewRepository()
-	s := mocks.NewService(mrep)
-	adapter := NewHTTPPrimaryAdapter(s)
+	// s := mocks.NewService(mrep)
+	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
 	r.HandleFunc("/accounts", adapter.CreateAccount).
@@ -56,8 +56,7 @@ func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
 	m := mock.New(t)
 	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegistered()
-	s := mocks.NewService(mrep)
-	adapter := NewHTTPPrimaryAdapter(s)
+	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
 	r.HandleFunc("/accounts", adapter.CreateAccount).
@@ -80,8 +79,7 @@ func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
 	m := mock.New(t)
 	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegisteredError()
-	s := mocks.NewService(mrep)
-	adapter := NewHTTPPrimaryAdapter(s)
+	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
 	r.HandleFunc("/accounts", adapter.CreateAccount).
@@ -104,8 +102,7 @@ func Test_CreateAccount_InvalidBody(t *testing.T) {
 	m := mock.New(t)
 	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegisteredError()
-	s := mocks.NewService(mrep)
-	adapter := NewHTTPPrimaryAdapter(s)
+	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
 	r.HandleFunc("/accounts", adapter.CreateAccount).
@@ -128,8 +125,7 @@ func Test_GetAccountByID_OK(t *testing.T) {
 	m := mock.New(t)
 	config.Get.DBAdapter = m
 	mrep := mocks.NewRepository()
-	s := mocks.NewService(mrep)
-	adapter := NewHTTPPrimaryAdapter(s)
+	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
 	r.HandleFunc("/accounts/{account_id}", adapter.GetAccountByID).
