@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/arxdsilva/knab/internal/domains"
@@ -40,7 +41,7 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 	acc := &domains.Account{ID: t.AccountID}
 	if err := a.service.AccountByID(acc); err != nil {
 		glg.Error("[CreateTransaction]", "(service.AccountByID)", err.Error())
-		errAPI := errors.New("account_id could not be found")
+		errAPI := fmt.Errorf("account_id '%v' could not be found", t.AccountID)
 		http.Error(w, errAPI.Error(), http.StatusNotFound)
 		return
 	}

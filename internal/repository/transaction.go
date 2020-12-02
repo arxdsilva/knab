@@ -24,7 +24,7 @@ func NewTransaction() domains.TransactionService {
 
 // CreateTransaction is the repository handler for the transaction creation workflow
 func (t *Transaction) CreateTransaction(dt *domains.Transaction) (err error) {
-	sql := `INSERT INTO accounts (account_id, operation_id, amount) 
+	sql := `INSERT INTO transactions (account_id, operation_id, amount) 
 		VALUES ($1, $2, $3)`
 	sc := config.Get.DBAdapter.Insert(sql,
 		dt.AccountID, dt.OperationTypeID, dt.Amount)
