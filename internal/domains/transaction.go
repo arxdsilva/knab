@@ -7,7 +7,7 @@ import (
 )
 
 type Transaction struct {
-	ID              string      `json:"id"`
+	ID              int64       `json:"id"`
 	UUID            string      `json:"uuid"`
 	AccountID       int64       `json:"account_id"`
 	OperationTypeID int         `json:"operation_type_id"`

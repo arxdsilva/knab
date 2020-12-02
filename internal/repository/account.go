@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/arxdsilva/knab/internal/domains"
@@ -10,7 +9,6 @@ import (
 )
 
 type Account struct {
-	ctx            context.Context
 	ID             int64       `json:"id"`
 	UUID           string      `json:"uuid"`
 	DocumentNumber string      `json:"document_number"`
