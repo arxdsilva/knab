@@ -14,8 +14,8 @@ func RouterRegister(r *mux.Router) {
 	tra := repository.NewTransaction()
 	s := domains.NewService(acc, tra)
 	adapter := handlers.NewHTTPPrimaryAdapter(s)
-	// to avoid prest dbname/table collision I had to create this path
 	r.HandleFunc("/", adapter.HealthCheck).Methods(http.MethodGet)
+	// to avoid prest /dbname/table collision I had to create this path /prest/api/<domain>
 	r.HandleFunc("/prest/api/accounts", adapter.CreateAccount).Methods(http.MethodPost)
 	r.HandleFunc("/prest/api/accounts/{account_id:[0-9]+}", adapter.GetAccountByID).Methods(http.MethodGet)
 	//	r.HandleFunc("/accounts/:account_uuid", nil).Methods(http.MethodGet)
