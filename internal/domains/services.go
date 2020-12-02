@@ -1,26 +1,28 @@
 package domains
 
-import "context"
-
 type port struct {
-	repo SecondaryPort
-	ctx  context.Context
+	account     AccountService
+	transaction TransactionService
 }
 
 // NewService receives a Secondary Port of domain
 // and instantiates a Primary Port
-func NewService(repo SecondaryPort) PrimaryPort {
-	return &port{repo, context.Background()}
+func NewService(a AccountService, t TransactionService) APIService {
+	return &port{account: a, transaction: t}
 }
 
 func (p *port) CreateAccount(a *Account) (err error) {
-	return p.repo.CreateAccount(a)
+	return p.account.CreateAccount(a)
 }
 
 func (p *port) AccountByID(a *Account) (err error) {
-	return p.repo.AccountByID(a)
+	return p.account.AccountByID(a)
 }
 
-func (p *port) IsRegistered(doc string) (r bool, err error) {
-	return p.repo.IsRegistered(doc)
+func (p *port) IsIDRegistered(doc string) (r bool, err error) {
+	return p.account.IsIDRegistered(doc)
+}
+
+func (p *port) CreateTransaction(t *Transaction) (err error) {
+	return p.transaction.CreateTransaction(t)
 }

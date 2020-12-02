@@ -1,13 +1,16 @@
 package domains
 
-type PrimaryPort interface {
-	CreateAccount(a *Account) (err error)
-	AccountByID(a *Account) (err error)
-	IsRegistered(doc string) (r bool, err error)
+type APIService interface {
+	AccountService
+	TransactionService
 }
 
-type SecondaryPort interface {
+type AccountService interface {
 	CreateAccount(a *Account) (err error)
 	AccountByID(a *Account) (err error)
-	IsRegistered(doc string) (r bool, err error)
+	IsIDRegistered(doc string) (r bool, err error)
+}
+
+type TransactionService interface {
+	CreateTransaction(t *Transaction) (err error)
 }

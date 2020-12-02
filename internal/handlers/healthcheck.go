@@ -8,10 +8,10 @@ import (
 )
 
 type HTTPPrimaryAdapter struct {
-	service domains.PrimaryPort
+	service domains.APIService
 }
 
-func NewHTTPPrimaryAdapter(s domains.PrimaryPort) *HTTPPrimaryAdapter {
+func NewHTTPPrimaryAdapter(s domains.APIService) *HTTPPrimaryAdapter {
 	return &HTTPPrimaryAdapter{s}
 }
 
