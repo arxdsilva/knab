@@ -57,6 +57,8 @@ func (a *HTTPPrimaryAdapter) GetAccountByID(w http.ResponseWriter, r *http.Reque
 //
 // 406 NotAcceptable (body problems)
 //
+// 409 Conflict (document number already registered)
+//
 // 500 Internal Server Error (could not create account)
 //
 func (a *HTTPPrimaryAdapter) CreateAccount(w http.ResponseWriter, r *http.Request) {
