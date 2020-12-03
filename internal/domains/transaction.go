@@ -6,6 +6,8 @@ import (
 	"github.com/nuveo/dbtime"
 )
 
+// Transaction is the struct that holds the way that
+// the API will comunicate with external devices
 type Transaction struct {
 	ID              int64       `json:"id"`
 	UUID            string      `json:"uuid"`
@@ -15,6 +17,8 @@ type Transaction struct {
 	EventDate       dbtime.Time `json:"event_date"`
 }
 
+// Verify method asserts that the given transaction is in compliance with
+// what knab needs as logic
 func (t *Transaction) Verify() (err error) {
 	if t.AccountID <= 0 {
 		return errors.New("account_id cannot be zero or negative")
