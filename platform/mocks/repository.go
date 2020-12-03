@@ -14,8 +14,11 @@ func (r *Repository) AccountByID(a *domains.Account) (err error) {
 	a.ID = 1
 	return
 }
-func (r *Repository) IsIDRegistered(doc string) (rp bool, err error)       { return }
-func (r *Repository) CreateTransaction(t *domains.Transaction) (err error) { return }
+func (r *Repository) IsIDRegistered(doc string) (rp bool, err error) { return }
+func (r *Repository) CreateTransaction(t *domains.Transaction) (err error) {
+	t.ID = 1
+	return
+}
 
 type RepositoryRegistered struct{}
 
@@ -34,3 +37,15 @@ func (r *RepositoryRegisteredError) IsIDRegistered(doc string) (rp bool, err err
 	return true, errors.New("some error")
 }
 func (r *RepositoryRegisteredError) CreateTransaction(t *domains.Transaction) (err error) { return }
+
+type RepositoryAccByIDErr struct{}
+
+func NewRepositoryAccByIDErr() domains.APIService                            { return &RepositoryAccByIDErr{} }
+func (r *RepositoryAccByIDErr) CreateAccount(a *domains.Account) (err error) { return }
+func (r *RepositoryAccByIDErr) AccountByID(a *domains.Account) (err error) {
+	return errors.New("acc id not found")
+}
+func (r *RepositoryAccByIDErr) IsIDRegistered(doc string) (rp bool, err error) {
+	return true, errors.New("some error")
+}
+func (r *RepositoryAccByIDErr) CreateTransaction(t *domains.Transaction) (err error) { return }
