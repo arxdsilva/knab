@@ -6,31 +6,18 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"strings"
 	"testing"
 
 	"github.com/arxdsilva/knab/internal/domains"
-	"github.com/arxdsilva/knab/platform/config"
 	"github.com/arxdsilva/knab/platform/mocks"
 	"github.com/gorilla/mux"
-	"github.com/prest/prest/adapters/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/negroni"
 )
 
-func init() {
-	testing.Init()
-	config.Load()
-}
-
 func Test_CreateAccountOK(t *testing.T) {
-	os.Setenv("TEST", "true")
-	defer os.Unsetenv("TEST")
-	m := mock.New(t)
-	config.Get.DBAdapter = m
 	mrep := mocks.NewRepository()
-	// s := mocks.NewService(mrep)
 	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
 	n := negroni.Classic()
@@ -51,10 +38,6 @@ func Test_CreateAccountOK(t *testing.T) {
 }
 
 func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
-	os.Setenv("TEST", "true")
-	defer os.Unsetenv("TEST")
-	m := mock.New(t)
-	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegistered()
 	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
@@ -74,10 +57,6 @@ func Test_CreateAccount_AlreadyRegistered(t *testing.T) {
 }
 
 func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
-	os.Setenv("TEST", "true")
-	defer os.Unsetenv("TEST")
-	m := mock.New(t)
-	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegisteredError()
 	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
@@ -97,10 +76,6 @@ func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
 }
 
 func Test_CreateAccount_InvalidBody(t *testing.T) {
-	os.Setenv("TEST", "true")
-	defer os.Unsetenv("TEST")
-	m := mock.New(t)
-	config.Get.DBAdapter = m
 	mrep := mocks.NewRepositoryRegisteredError()
 	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
@@ -120,10 +95,6 @@ func Test_CreateAccount_InvalidBody(t *testing.T) {
 }
 
 func Test_GetAccountByID_OK(t *testing.T) {
-	os.Setenv("TEST", "true")
-	defer os.Unsetenv("TEST")
-	m := mock.New(t)
-	config.Get.DBAdapter = m
 	mrep := mocks.NewRepository()
 	adapter := NewHTTPPrimaryAdapter(mrep)
 	r := mux.NewRouter()
