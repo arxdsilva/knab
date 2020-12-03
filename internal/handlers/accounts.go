@@ -74,7 +74,7 @@ func (a *HTTPPrimaryAdapter) CreateAccount(w http.ResponseWriter, r *http.Reques
 	}
 	registered, err := a.service.IsIDRegistered(acc.DocumentNumber)
 	if err != nil {
-		glg.Error("[CreateAccount]", "(IsRegistered)", err.Error())
+		glg.Error("[CreateAccount]", "(IsIDRegistered)", err.Error())
 		apiErr := errors.New("Internal server error")
 		http.Error(w, apiErr.Error(), http.StatusInternalServerError)
 		return
