@@ -22,11 +22,13 @@ func (r *Repository) CreateTransaction(t *domains.Transaction) (err error) {
 
 type RepositoryRegistered struct{}
 
-func NewRepositoryRegistered() domains.APIService                                    { return &RepositoryRegistered{} }
-func (r *RepositoryRegistered) CreateAccount(a *domains.Account) (err error)         { return }
-func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)           { return }
-func (r *RepositoryRegistered) IsIDRegistered(doc string) (rp bool, err error)       { return true, nil }
-func (r *RepositoryRegistered) CreateTransaction(t *domains.Transaction) (err error) { return }
+func NewRepositoryRegistered() domains.APIService                              { return &RepositoryRegistered{} }
+func (r *RepositoryRegistered) CreateAccount(a *domains.Account) (err error)   { return }
+func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)     { return }
+func (r *RepositoryRegistered) IsIDRegistered(doc string) (rp bool, err error) { return true, nil }
+func (r *RepositoryRegistered) CreateTransaction(t *domains.Transaction) (err error) {
+	return errors.New("error")
+}
 
 type RepositoryRegisteredError struct{}
 
