@@ -167,3 +167,19 @@ func Test_GetAccountByID_NotFound(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
+
+func Test_GetAccountByID_NaNumber(t *testing.T) {
+	mrep := mocks.NewRepositoryAccByIDErr()
+	adapter := NewHTTPPrimaryAdapter(mrep)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts/{account_id}", adapter.GetAccountByID).
+		Methods("GET")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	fmt.Println(server.Config)
+	resp, err := http.Get(server.URL + "/accounts/abc1as31s")
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusNotAcceptable, resp.StatusCode)
+}
