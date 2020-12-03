@@ -7,7 +7,7 @@ var operations = map[int]string{
 	4: "pagamento",
 }
 
-func IsOperation(op int) bool {
+func isOperation(op int) bool {
 	_, ok := operations[op]
 	return ok
 }

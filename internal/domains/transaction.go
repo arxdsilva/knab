@@ -23,7 +23,7 @@ func (t *Transaction) Verify() (err error) {
 	if t.AccountID <= 0 {
 		return errors.New("account_id cannot be zero or negative")
 	}
-	if !IsOperation(t.OperationTypeID) {
+	if !isOperation(t.OperationTypeID) {
 		return errors.New("operation_type_id is invalid")
 	}
 	if t.Amount == float64(0) {
