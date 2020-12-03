@@ -36,7 +36,7 @@ func NewRepositoryRegisteredError() domains.APIService                          
 func (r *RepositoryRegisteredError) CreateAccount(a *domains.Account) (err error) { return }
 func (r *RepositoryRegisteredError) AccountByID(a *domains.Account) (err error)   { return }
 func (r *RepositoryRegisteredError) IsIDRegistered(doc string) (rp bool, err error) {
-	return true, errors.New("some error")
+	return true, nil
 }
 func (r *RepositoryRegisteredError) CreateTransaction(t *domains.Transaction) (err error) { return }
 
