@@ -15,19 +15,15 @@ import (
 )
 
 type Config struct {
-	Cors         string           `toml:"cors" cfg:"cors"`
-	Debug        bool             `toml:"debug" cfg:"debug" cfgDefault:"false"`
-	Environment  int              `toml:"environment" cfg:"environment" cfgDefault:"0"`
-	Cache        bool             `toml:"cache" cfg:"cache" cfgDefault:"true"`
-	JWTKey       string           `toml:"jwt_key" cfg:"jwt_key"`
-	PGHost       string           `toml:"pg_host" cfg:"pg_host" cfgDefault:"127.0.0.1"`
-	PGPort       int              `toml:"pg_port" cfg:"pg_port" cfgDefault:"5432"`
-	PGDBName     string           `toml:"pg_dbname" cfg:"pg_dbname" cfgDefault:"knab"`
-	PGUser       string           `toml:"pg_user" cfg:"pg_user" cfgDefault:"postgres"`
-	PGPass       string           `toml:"pg_pass" cfg:"pg_pass" cfgDefault:"postgres"`
-	Prest        PrestCore        `toml:"prest" cfg:"prest"`
-	DBAdapter    adapters.Adapter `toml:"-" cfg:"-"`
-	JWTWhiteList string           `toml:"jwt_whitelist" cfg:"jwt_whitelist"`
+	Cors      string           `toml:"cors" cfg:"cors"`
+	Debug     bool             `toml:"debug" cfg:"debug" cfgDefault:"false"`
+	PGHost    string           `toml:"pg_host" cfg:"pg_host" cfgDefault:"0.0.0.0"`
+	PGPort    int              `toml:"pg_port" cfg:"pg_port" cfgDefault:"5432"`
+	PGDBName  string           `toml:"pg_dbname" cfg:"pg_dbname" cfgDefault:"postgres"`
+	PGUser    string           `toml:"pg_user" cfg:"pg_user" cfgDefault:"postgres"`
+	PGPass    string           `toml:"pg_pass" cfg:"pg_pass" cfgDefault:"postgres"`
+	Prest     PrestCore        `toml:"prest" cfg:"prest"`
+	DBAdapter adapters.Adapter `toml:"-" cfg:"-"`
 }
 
 // PrestCore configuration
@@ -35,7 +31,6 @@ type PrestCore struct {
 	Host       string `toml:"host" cfg:"host" cfgDefault:"127.0.0.1"`
 	Port       int    `toml:"port" cfg:"port" cfgDefault:"8888"`
 	Migrations string `toml:"migrations" cfg:"migrations" cfgDefault:"./migrations"`
-	Queries    string `toml:"queries" cfg:"queries" cfgDefault:"./queries"`
 }
 
 var Get *Config
@@ -70,13 +65,10 @@ func Load() {
 	} else {
 		loadDefaultPGConfig()
 	}
-	pConf.PrestConf.JWTKey = Get.JWTKey
 	pConf.PrestConf.Debug = Get.Debug
 	pConf.PrestConf.CORSAllowOrigin = cors
 	pConf.PrestConf.MigrationsPath = Get.Prest.Migrations
-	pConf.PrestConf.QueriesPath = Get.Prest.Queries
 	pConf.PrestConf.EnableDefaultJWT = false
-	pConf.PrestConf.EnableCache = Get.Cache
 	pConf.PrestConf.PGMaxIdleConn = 0
 	if os.Getenv("TEST") != "" {
 		Get.DBAdapter = mock.New(&testing.T{})

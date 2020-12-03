@@ -1,16 +1,10 @@
 migrations = "./migrations"
 debug=true
-
-[http]
-port = 8888
+pg_host="127.0.0.1"
+pg_port = 5432
+pg_user = "postgres"
+pg_pass = "postgres"
+pg_dbname = "postgres"
 
 [ssl]
 mode = "disable"
-
-[pg]	
-host = "127.0.0.1"	
-port = 5432	
-user = "postgres"	
-pass = "postgres"	
-database = "postgres"	
-dbname = "postgres"	
