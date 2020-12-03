@@ -13,15 +13,17 @@ import (
 // CreateTransaction handler
 // lets API users create accounts by passing a document_number as body
 //
-// Example body: `{"document_number":"1234"}`
+// Example body: `{"account_id":1,"operation_type_id":1,"amount":10}`
 //
 // Responses:
 //
 // 201 Created
 //
-// 400 Bad Request (invalid number)
+// 400 Bad Request (invalid account/operation/amount)
 //
-// 406 NotAcceptable (body problems)
+// 404 NotFound (account_id wasnt found in db)
+//
+// 406 NotAcceptable (could not parse body)
 //
 // 500 Internal Server Error (could not create account)
 //
