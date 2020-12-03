@@ -69,10 +69,10 @@ func Test_CreateAccount_AlreadyRegisteredError(t *testing.T) {
 	body := strings.NewReader(`{"document_number":"1234"}`)
 	resp, err := http.Post(server.URL+"/accounts", "", body)
 	assert.Nil(t, err)
-	assert.Equal(t, http.StatusInternalServerError, resp.StatusCode)
+	assert.Equal(t, http.StatusConflict, resp.StatusCode)
 	bodyByte, errR := ioutil.ReadAll(resp.Body)
 	assert.Nil(t, errR)
-	assert.Contains(t, string(bodyByte), "server error")
+	assert.Contains(t, string(bodyByte), "already been registered")
 }
 
 func Test_CreateAccount_InvalidBody(t *testing.T) {
@@ -94,6 +94,44 @@ func Test_CreateAccount_InvalidBody(t *testing.T) {
 	assert.Contains(t, string(bodyByte), "parse request body")
 }
 
+func Test_CreateAccount_InvalidDocumentNumber(t *testing.T) {
+	mrep := mocks.NewRepositoryRegisteredError()
+	adapter := NewHTTPPrimaryAdapter(mrep)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	body := strings.NewReader(`{}`)
+	resp, err := http.Post(server.URL+"/accounts", "", body)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+	bodyByte, errR := ioutil.ReadAll(resp.Body)
+	assert.Nil(t, errR)
+	assert.Contains(t, string(bodyByte), "Document number cannot be empty")
+}
+
+func Test_CreateAccount_InvalidDocumentNumber_NaN(t *testing.T) {
+	mrep := mocks.NewRepositoryRegisteredError()
+	adapter := NewHTTPPrimaryAdapter(mrep)
+	r := mux.NewRouter()
+	n := negroni.Classic()
+	r.HandleFunc("/accounts", adapter.CreateAccount).
+		Methods("POST")
+	n.UseHandler(r)
+	server := httptest.NewServer(n)
+	defer server.Close()
+	body := strings.NewReader(`{"document_number":"abcd12341asd"}`)
+	resp, err := http.Post(server.URL+"/accounts", "", body)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+	bodyByte, errR := ioutil.ReadAll(resp.Body)
+	assert.Nil(t, errR)
+	assert.Contains(t, string(bodyByte), "not a document number")
+}
+
 func Test_GetAccountByID_OK(t *testing.T) {
 	mrep := mocks.NewRepository()
 	adapter := NewHTTPPrimaryAdapter(mrep)
@@ -105,7 +143,7 @@ func Test_GetAccountByID_OK(t *testing.T) {
 	server := httptest.NewServer(n)
 	defer server.Close()
 	fmt.Println(server.Config)
-	resp, err := http.Get(server.URL + "/accounts/" + "1")
+	resp, err := http.Get(server.URL + "/accounts/1")
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	acc := &domains.Account{}
