@@ -12,6 +12,7 @@ func NewRepository() domains.APIService                            { return &Rep
 func (r *Repository) CreateAccount(a *domains.Account) (err error) { return }
 func (r *Repository) AccountByID(a *domains.Account) (err error) {
 	a.ID = 1
+	a.AvailableCredit = 100
 	return
 }
 func (r *Repository) IsIDRegistered(doc string) (rp bool, err error) { return }
