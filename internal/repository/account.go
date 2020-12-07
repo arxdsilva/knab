@@ -24,8 +24,11 @@ func NewAccount() domains.AccountService {
 }
 
 func (ar *Account) CreateAccount(a *domains.Account) (err error) {
-	sql := `INSERT INTO accounts (document_number) VALUES ($1)`
-	sc := config.Get.DBAdapter.Insert(sql, a.DocumentNumber)
+	sql := `INSERT INTO accounts (
+		document_number, available_credit_limit, total_credit_limit) 
+		VALUES ($1, $2, $3)`
+	sc := config.Get.DBAdapter.Insert(sql,
+		a.DocumentNumber, a.TotalCredit, a.TotalCredit)
 	err = sc.Err()
 	if err != nil {
 		return
@@ -36,8 +39,7 @@ func (ar *Account) CreateAccount(a *domains.Account) (err error) {
 	}
 	a.ID = ar.ID
 	a.UUID = ar.UUID
-	a.AvailableCredit = ar.AvailableCredit
-	a.TotalCredit = ar.TotalCredit
+	a.AvailableCredit = a.TotalCredit
 	return
 }
 
