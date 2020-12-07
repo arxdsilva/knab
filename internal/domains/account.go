@@ -23,5 +23,8 @@ func (a *Account) Verify() (err error) {
 	if _, err := strconv.Atoi(a.DocumentNumber); err != nil {
 		return fmt.Errorf("%v is not a document number", a.DocumentNumber)
 	}
+	if a.TotalCredit <= 0 {
+		return errors.New("TotalCredit cannot be zero or negative")
+	}
 	return
 }
