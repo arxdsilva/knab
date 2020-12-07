@@ -44,7 +44,7 @@ func (ar *Account) CreateAccount(a *domains.Account) (err error) {
 }
 
 func (ar *Account) AccountByID(a *domains.Account) (err error) {
-	sql := `SELECT id, uuid, document_number, created_at FROM accounts WHERE id=$1`
+	sql := `SELECT id, uuid, document_number, created_at, available_credit_limit FROM accounts WHERE id=$1`
 	sc := config.Get.DBAdapter.Query(sql, a.ID)
 	err = sc.Err()
 	if err != nil {
@@ -60,6 +60,7 @@ func (ar *Account) AccountByID(a *domains.Account) (err error) {
 	a.ID = ar.ID
 	a.UUID = ar.UUID
 	a.DocumentNumber = ar.DocumentNumber
+	a.AvailableCredit = ar.AvailableCredit
 	return
 }
 
@@ -78,4 +79,10 @@ func (ar *Account) IsIDRegistered(doc string) (r bool, err error) {
 		return true, nil
 	}
 	return
+}
+
+func (ar *Account) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
+	sql := `UPDATE available_credit_limit  FROM accounts 
+	SET available_credit_limit = $1 WHERE id=$2`
+	return config.Get.DBAdapter.Update(sql, amount, accID).Err()
 }

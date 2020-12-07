@@ -9,6 +9,7 @@ type AccountService interface {
 	CreateAccount(a *Account) (err error)
 	AccountByID(a *Account) (err error)
 	IsIDRegistered(doc string) (r bool, err error)
+	UpdateAvaliableLimit(accID int64, amount float64) (err error)
 }
 
 type TransactionService interface {

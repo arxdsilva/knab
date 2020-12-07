@@ -52,8 +52,6 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		return
 	}
 	t.AccountID = acc.ID
-	// verificar se pode fazer a transacao
-	// 	-	somente trans negativa
 	if t.OperationTypeID < 4 {
 		canTransact, err := a.service.HasLimitToTransaction(t)
 		if err != nil {
@@ -62,8 +60,8 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 			return
 		}
 		if !canTransact {
-			glg.Error("[CreateTransaction]", "(service.HasLimitToTransaction)", err.Error())
 			errAPI := errors.New("Account doesnt have avaliable limit")
+			glg.Error("[CreateTransaction]", "(service.HasLimitToTransaction)", errAPI.Error())
 			http.Error(w, errAPI.Error(), http.StatusUnauthorized)
 			return
 		}
@@ -73,8 +71,12 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		http.Error(w, ErrStatusInternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
-	// reduza/aumente saldo disponivel de credito
-
+	acc.UpdateAvaliableLimit(t.Amount)
+	if err := a.service.UpdateAvaliableLimit(acc.ID, acc.AvailableCredit); err != nil {
+		glg.Error("[CreateTransaction]", "(service.UpdateAvaliableLimit)", err.Error())
+		http.Error(w, ErrStatusInternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
 	glg.Info("[CreateTransaction] success ", t.UUID)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(t)

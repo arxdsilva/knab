@@ -28,3 +28,7 @@ func (a *Account) Verify() (err error) {
 	}
 	return
 }
+
+func (a *Account) UpdateAvaliableLimit(transactionAmount float64) {
+	a.AvailableCredit = a.AvailableCredit + transactionAmount
+}
