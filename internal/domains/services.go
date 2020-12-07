@@ -26,3 +26,7 @@ func (p *port) IsIDRegistered(doc string) (r bool, err error) {
 func (p *port) CreateTransaction(t *Transaction) (err error) {
 	return p.transaction.CreateTransaction(t)
 }
+
+func (p *port) HasLimitToTransaction(t *Transaction) (b bool, err error) {
+	return p.transaction.HasLimitToTransaction(t)
+}

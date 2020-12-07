@@ -20,6 +20,7 @@ func (r *Repository) CreateTransaction(t *domains.Transaction) (err error) {
 	t.ID = 1
 	return
 }
+func (t *Repository) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) { return }
 
 type RepositoryRegistered struct{}
 
@@ -29,6 +30,9 @@ func (r *RepositoryRegistered) AccountByID(a *domains.Account) (err error)     {
 func (r *RepositoryRegistered) IsIDRegistered(doc string) (rp bool, err error) { return true, nil }
 func (r *RepositoryRegistered) CreateTransaction(t *domains.Transaction) (err error) {
 	return errors.New("error")
+}
+func (t *RepositoryRegistered) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) {
+	return
 }
 
 type RepositoryRegisteredError struct{}
@@ -40,6 +44,9 @@ func (r *RepositoryRegisteredError) IsIDRegistered(doc string) (rp bool, err err
 	return true, nil
 }
 func (r *RepositoryRegisteredError) CreateTransaction(t *domains.Transaction) (err error) { return }
+func (t *RepositoryRegisteredError) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) {
+	return
+}
 
 type RepositoryAccByIDErr struct{}
 
@@ -52,3 +59,6 @@ func (r *RepositoryAccByIDErr) IsIDRegistered(doc string) (rp bool, err error) {
 	return true, errors.New("some error")
 }
 func (r *RepositoryAccByIDErr) CreateTransaction(t *domains.Transaction) (err error) { return }
+func (t *RepositoryAccByIDErr) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) {
+	return
+}

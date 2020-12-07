@@ -41,3 +41,25 @@ func (t *Transaction) CreateTransaction(dt *domains.Transaction) (err error) {
 	dt.EventDate = t.EventDate
 	return
 }
+
+// CreateTransaction is the repository handler for the transaction creation workflow
+func (t *Transaction) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) {
+	sql := `SELECT accounts (available_credit_limit) WHERE id=$1`
+	sc := config.Get.DBAdapter.Query(sql, dt.AccountID)
+	err = sc.Err()
+	if err != nil {
+		return
+	}
+	var accCredit struct {
+		CreditLimit float64 `json:"available_credit_limit"`
+	}
+	_, err = sc.Scan(&accCredit)
+	if err != nil {
+		return
+	}
+	if accCredit.CreditLimit > dt.Amount {
+		can = true
+		return
+	}
+	return
+}

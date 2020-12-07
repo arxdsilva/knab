@@ -10,6 +10,10 @@ import (
 	"github.com/kpango/glg"
 )
 
+var (
+	ErrStatusInternalServer = errors.New("Internal Server Error")
+)
+
 // CreateTransaction handler
 // lets API users create accounts by passing a document_number as body
 //
@@ -48,12 +52,29 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		return
 	}
 	t.AccountID = acc.ID
+	// verificar se pode fazer a transacao
+	// 	-	somente trans negativa
+	if t.OperationTypeID < 4 {
+		canTransact, err := a.service.HasLimitToTransaction(t)
+		if err != nil {
+			glg.Error("[CreateTransaction]", "(service.HasLimitToTransaction)", err.Error())
+			http.Error(w, ErrStatusInternalServer.Error(), http.StatusInternalServerError)
+			return
+		}
+		if !canTransact {
+			glg.Error("[CreateTransaction]", "(service.HasLimitToTransaction)", err.Error())
+			errAPI := errors.New("Account doesnt have avaliable limit")
+			http.Error(w, errAPI.Error(), http.StatusUnauthorized)
+			return
+		}
+	}
 	if err := a.service.CreateTransaction(t); err != nil {
 		glg.Error("[CreateTransaction]", "(service.CreateTransaction)", err.Error())
-		errAPI := errors.New("Internal Server Error")
-		http.Error(w, errAPI.Error(), http.StatusInternalServerError)
+		http.Error(w, ErrStatusInternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
+	// reduza/aumente saldo disponivel de credito
+
 	glg.Info("[CreateTransaction] success ", t.UUID)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(t)
