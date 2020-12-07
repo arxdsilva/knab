@@ -9,11 +9,13 @@ import (
 )
 
 type Account struct {
-	ID             int64       `json:"id"`
-	UUID           string      `json:"uuid"`
-	DocumentNumber string      `json:"document_number"`
-	CreatedAt      dbtime.Time `json:"created_at"`
-	Active         bool        `json:"active"`
+	ID              int64       `json:"id"`
+	UUID            string      `json:"uuid"`
+	DocumentNumber  string      `json:"document_number"`
+	CreatedAt       dbtime.Time `json:"created_at"`
+	Active          bool        `json:"active"`
+	AvailableCredit float64     `json:"available_credit_limit"`
+	TotalCredit     float64     `json:"total_credit_limit"`
 }
 
 // NewAccount  retorna um tipo que implementa a porta secundaria
@@ -34,6 +36,8 @@ func (ar *Account) CreateAccount(a *domains.Account) (err error) {
 	}
 	a.ID = ar.ID
 	a.UUID = ar.UUID
+	a.AvailableCredit = ar.AvailableCredit
+	a.TotalCredit = ar.TotalCredit
 	return
 }
 
