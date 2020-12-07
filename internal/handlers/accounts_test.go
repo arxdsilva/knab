@@ -150,6 +150,7 @@ func Test_GetAccountByID_OK(t *testing.T) {
 	err = json.NewDecoder(resp.Body).Decode(acc)
 	assert.Nil(t, err)
 	assert.Equal(t, int64(1), acc.ID)
+	assert.Equal(t, float64(100), acc.AvailableCredit)
 }
 
 func Test_GetAccountByID_NotFound(t *testing.T) {
