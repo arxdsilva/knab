@@ -77,6 +77,12 @@ func (a *HTTPPrimaryAdapter) CreateTransaction(w http.ResponseWriter, r *http.Re
 		http.Error(w, ErrStatusInternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
+	// fila > pago positivo XYZ
+	// caso op =4
+	// atualizar transacoes c/ balance negativo
+	// passos:
+	// pegar transacoes c/ balance negativos []list
+	// atualizar 1:1 balance
 	glg.Info("[CreateTransaction] success ", t.UUID)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(t)

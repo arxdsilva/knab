@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/arxdsilva/knab/internal/domains"
 	"github.com/arxdsilva/knab/platform/config"
 	"github.com/nuveo/dbtime"
@@ -44,7 +46,7 @@ func (t *Transaction) CreateTransaction(dt *domains.Transaction) (err error) {
 
 // CreateTransaction is the repository handler for the transaction creation workflow
 func (t *Transaction) HasLimitToTransaction(dt *domains.Transaction) (can bool, err error) {
-	sql := `SELECT accounts (available_credit_limit) WHERE id=$1`
+	sql := `SELECT available_credit_limit FROM accounts WHERE id=$1`
 	sc := config.Get.DBAdapter.Query(sql, dt.AccountID)
 	err = sc.Err()
 	if err != nil {
@@ -57,9 +59,26 @@ func (t *Transaction) HasLimitToTransaction(dt *domains.Transaction) (can bool, 
 	if err != nil {
 		return
 	}
-	if accCredit.CreditLimit > dt.Amount {
+	if accCredit.CreditLimit >= dt.Amount {
 		can = true
 		return
+	}
+	return
+}
+
+func (t *Transaction) TransactionsWithBalance(accID int64) (ts []domains.Transaction, err error) {
+	sql := `SELECT balance FROM transactions WHERE balance<0 AND account_id=$1`
+	sc := config.Get.DBAdapter.Query(sql, accID)
+	err = sc.Err()
+	if err != nil {
+		return
+	}
+	n, err := sc.Scan(&ts)
+	if err != nil {
+		return
+	}
+	if n == 0 {
+		return ts, fmt.Errorf("No transactions found")
 	}
 	return
 }

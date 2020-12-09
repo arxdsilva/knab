@@ -21,3 +21,6 @@ func RouterRegister(r *mux.Router) {
 	//	r.HandleFunc("/accounts/:account_uuid", nil).Methods(http.MethodGet)
 	r.HandleFunc("/prest/api/transactions", adapter.CreateTransaction).Methods(http.MethodPost)
 }
+
+// decimal c/ precisao
+// int > float

@@ -15,4 +15,5 @@ type AccountService interface {
 type TransactionService interface {
 	HasLimitToTransaction(t *Transaction) (b bool, err error)
 	CreateTransaction(t *Transaction) (err error)
+	TransactionsWithBalance(accountID int64) (ts []Transaction, err error)
 }

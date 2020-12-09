@@ -24,6 +24,10 @@ func (t *Repository) HasLimitToTransaction(dt *domains.Transaction) (can bool, e
 	return true, nil
 }
 
+func (t *Repository) TransactionsWithBalance(accountID int64) (ts []domains.Transaction, err error) {
+	return
+}
+
 func (ar *Repository) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
 	return
 }
@@ -44,6 +48,9 @@ func (t *RepositoryRegistered) HasLimitToTransaction(dt *domains.Transaction) (c
 func (ar *RepositoryRegistered) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
 	return
 }
+func (t *RepositoryRegistered) TransactionsWithBalance(accountID int64) (ts []domains.Transaction, err error) {
+	return
+}
 
 type RepositoryRegisteredError struct{}
 
@@ -59,6 +66,9 @@ func (t *RepositoryRegisteredError) HasLimitToTransaction(dt *domains.Transactio
 }
 
 func (ar *RepositoryRegisteredError) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
+	return
+}
+func (t *RepositoryRegisteredError) TransactionsWithBalance(accountID int64) (ts []domains.Transaction, err error) {
 	return
 }
 
@@ -78,5 +88,8 @@ func (t *RepositoryAccByIDErr) HasLimitToTransaction(dt *domains.Transaction) (c
 }
 
 func (ar *RepositoryAccByIDErr) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
+	return
+}
+func (t *RepositoryAccByIDErr) TransactionsWithBalance(accountID int64) (ts []domains.Transaction, err error) {
 	return
 }

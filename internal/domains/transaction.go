@@ -14,8 +14,14 @@ type Transaction struct {
 	AccountID       int64       `json:"account_id"`
 	OperationTypeID int         `json:"operation_type_id"`
 	Amount          float64     `json:"amount"`
+	Balance         float64     `json:"balance"`
 	EventDate       dbtime.Time `json:"event_date"`
 }
+
+// iota (
+// 	_ = 0
+// 	OpCredito
+// )
 
 // Verify method asserts that the given transaction is in compliance with
 // what knab needs as logic
@@ -31,6 +37,7 @@ func (t *Transaction) Verify() (err error) {
 	}
 	if (t.OperationTypeID < 4) && (t.Amount > 0) {
 		t.Amount = t.Amount * -1
+		t.Balance = t.Amount * -1
 	}
 	return
 }

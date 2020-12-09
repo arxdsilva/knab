@@ -34,3 +34,7 @@ func (p *port) HasLimitToTransaction(t *Transaction) (b bool, err error) {
 func (p *port) UpdateAvaliableLimit(accID int64, amount float64) (err error) {
 	return p.account.UpdateAvaliableLimit(accID, amount)
 }
+
+func (p *port) TransactionsWithBalance(accID int64) (ts []Transaction, err error) {
+	return p.transaction.TransactionsWithBalance(accID)
+}
